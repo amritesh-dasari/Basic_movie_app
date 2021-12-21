@@ -18,19 +18,29 @@ class _SearchBarState extends State<SearchBar> {
     return Center(
       child: Container(
         width: width / 1.1,
-        height: 50,
+        height: 55,
         // padding: EdgeInsets.only(left: 20, right: 20, bottom: 5),
         decoration: BoxDecoration(
-          color: Colors.white10,
-          border: Border.all(width: 2),
-        ), // color: Color(0xFF210F37)
+            color: Colors.white24,
+            border: Border.all(width: 2),
+            borderRadius:
+                BorderRadius.circular(20)), // color: Color(0xFF210F37)
         child: TextField(
+          style: TextStyle(color: Colors.white70, fontSize: 18),
           onSubmitted: widget.onchanged,
           controller: widget.controller,
-          decoration: const InputDecoration(
-              labelText: "Search",
-              suffixIcon: Image(image: AssetImage("assets/Group 220.png")),
-              prefixIcon: Image(image: AssetImage("assets/Frame.png"))),
+          decoration: InputDecoration(
+              suffixIcon: IconButton(
+                icon: Image(
+                  image: AssetImage("assets/Group 220.png"),
+                  height: 25,
+                ),
+                onPressed: widget.controller.clear,
+              ),
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(14.0),
+                child: Image(image: AssetImage("assets/Frame.png")),
+              )),
         ),
       ),
     );

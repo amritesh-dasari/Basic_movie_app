@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tradexa_internship/Widgets/MovieCard.dart';
 import 'package:tradexa_internship/Widgets/SearchBar.dart';
 import '../State/MovieListController.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -16,20 +17,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var movieController = Get.put(MovieListController());
     return Scaffold(
-      backgroundColor: Color(0xFF17082A),
-      appBar: AppBar(
-        title: Text("Tradexa Internship Task"),
-      ),
+      backgroundColor: const Color(0xFF17082A),
       body: Stack(children: [
         Container(
           decoration: const BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/bloop.png"))),
+            image: DecorationImage(image: AssetImage("assets/bloop.png")),
+          ),
         ),
         GetBuilder<MovieListController>(builder: (controller) {
           return Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 10),
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.1,
+                ),
                 child: SearchBar(
                   controller: searchBarController,
                   onchanged: (string) {
@@ -39,13 +40,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Expanded(
-                  child: ListView.builder(
-                      itemCount: controller.SearchedList.length,
-                      itemBuilder: (context, index) {
-                        print(controller.SearchedList[index]);
-                        return Container();
-                        //return MovieCard(controller.SearchedList[index],index);
-                      }))
+                child: ListView.builder(
+                  itemCount: controller.SearchedList.length,
+                  itemBuilder: (context, index) {
+                    var cardet = controller.SearchedList[index];
+                    return MovieCard(
+                      title: cardet['Title'],
+                      poster: cardet['Poster'],
+                      rating: cardet['rating'],
+                      runtime: cardet['runtime'],
+                    );
+                  },
+                ),
+              ),
             ],
           );
         })

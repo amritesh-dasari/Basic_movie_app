@@ -25,13 +25,19 @@ class MovieListController extends GetxController {
           var movie_id = movies[i]['imdbID'];
           var title_url = Uri.parse(
               'http://www.omdbapi.com/?apikey=bed74689&i=' + movie_id);
+          print(title_url);
           var movie_response = await http.get(title_url);
 
           if (movie_response.statusCode == 200) {
+            var rating;
             var result1 =
                 convert.jsonDecode(movie_response.body) as Map<String, dynamic>;
             var ratingslst = result1['Ratings'];
-            var rating = ratingslst[0]['Value'];
+            if (ratingslst.length == 0) {
+              rating = "N/A";
+            } else {
+              rating = ratingslst[0]['Value'];
+            }
             var runtime = result1['Runtime'];
             movies[i]['rating'] = rating;
             movies[i]['runtime'] = runtime;
