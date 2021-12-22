@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchBarController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var cardet;
     var movieController = Get.put(MovieListController());
     return Scaffold(
       backgroundColor: const Color(0xFF17082A),
@@ -43,12 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView.builder(
                   itemCount: controller.SearchedList.length,
                   itemBuilder: (context, index) {
-                    var cardet = controller.SearchedList[index];
+                    cardet = controller.SearchedList[index];
                     return MovieCard(
-                      title: cardet['Title'],
-                      poster: cardet['Poster'],
-                      rating: cardet['rating'],
-                      runtime: cardet['runtime'],
+                      cardet: cardet,
                     );
                   },
                 ),

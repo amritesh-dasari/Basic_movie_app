@@ -1,24 +1,29 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tradexa_internship/Screens/moviePage.dart';
 
 class MovieCard extends StatelessWidget {
-  final String title;
-  final String poster;
-  final String runtime;
-  final String rating;
-  const MovieCard(
-      {Key? key,
-      required this.title,
-      required this.poster,
-      required this.runtime,
-      required this.rating})
-      : super(key: key);
+  final LinkedHashMap cardet;
+  const MovieCard({Key? key, required this.cardet}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FutureProvider(
+                create: (context) => Future.value(cardet),
+                initialData: cardet,
+                child: const MoviePage(),
+              ),
+            ),
+          );
+        },
         child: Column(
           children: [
             Stack(
@@ -36,7 +41,7 @@ class MovieCard extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(poster),
+                          image: NetworkImage(cardet["Poster"]),
                           fit: BoxFit.cover,
                           alignment: FractionalOffset.center,
                         ),
@@ -52,14 +57,14 @@ class MovieCard extends StatelessWidget {
                     child: Center(
                       child: Row(
                         children: [
-                          Text(" "),
-                          Image(
+                          const Text(" "),
+                          const Image(
                             image: AssetImage("assets/Star 1.png"),
                             height: 10,
                           ),
                           Text(
-                            " " + rating,
-                            style: TextStyle(color: Colors.white),
+                            " " + cardet['rating'],
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -72,22 +77,21 @@ class MovieCard extends StatelessWidget {
               ],
             ),
             ListTile(
-                title: Text(
-                  title,
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Row(
-                  children: [
-                    Image(
-                      image: AssetImage("assets/Group 356.png"),
-                      height: 16,
-                    ),
-                    Text("  " + runtime,
-                        style: TextStyle(color: Color(0xFFF79E44))),
-                  ],
-                )
-                // ),
-                ),
+              title: Text(
+                cardet['Title'],
+                style: const TextStyle(color: Colors.white),
+              ),
+              subtitle: Row(
+                children: [
+                  const Image(
+                    image: AssetImage("assets/Group 356.png"),
+                    height: 16,
+                  ),
+                  Text("  " + cardet['runtime'],
+                      style: const TextStyle(color: Color(0xFFF79E44))),
+                ],
+              ),
+            ),
           ],
         ),
       ),
